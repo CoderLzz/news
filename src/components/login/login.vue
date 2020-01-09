@@ -2,7 +2,7 @@
   <div class="container">
     <div class="login">
       <div class="avatar">
-        <img src="../../assets/logo.png" alt />
+        <img src="../../assets/img/logo.png" alt />
       </div>
       <el-form
         :model="loginForm"
@@ -17,8 +17,8 @@
           <el-input v-model="loginForm.password" type="password"></el-input>
         </el-form-item>
         <el-form-item class="right">
-          <el-button type="primary" @click="login">登录</el-button>
-          <el-button @click="register">注册</el-button>
+          <el-button type="primary" @click="login">{{$t("login.login")}}</el-button>
+          <el-button @click="register">{{$t("login.register")}}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -51,6 +51,8 @@ export default {
                     let data=await loginNews(this.loginForm)
                     if(data.meta.status==200){
                         window.localStorage.setItem('token',data.data.token)
+                        let avatar='http://localhost'+data.data.avatar
+                        this.$store.commit('init',avatar)
                         this.$message.success(data.meta.msg)
                         this.$router.push('/home')
                     }else{

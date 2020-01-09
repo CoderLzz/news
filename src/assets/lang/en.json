@@ -1,0 +1,9 @@
+{
+    "login":{
+        "login":"login",
+        "register":"register"
+    },
+    "home":{
+        "logo":"News background management system"
+    }
+}
