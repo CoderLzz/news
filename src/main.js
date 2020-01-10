@@ -11,7 +11,8 @@ import 'view-design/dist/styles/iview.css';
 import store from './store/index'
 //导入国际化
 import i18n from './assets/lang/index'
-//导入主题
+//导入图标库
+import './assets/fonts/iconfont.css'
 
 
 Vue.config.productionTip = false

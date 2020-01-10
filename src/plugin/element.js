@@ -1,4 +1,4 @@
-import {Button,Form,FormItem,Input,Message,Radio,RadioGroup,PageHeader,Container,Header,Aside,Main,Avatar,Dropdown,DropdownItem,DropdownMenu,Drawer,Image,Row,Col,Tooltip} from 'element-ui'
+import {Button,Form,FormItem,Input,Message,Radio,RadioGroup,PageHeader,Container,Header,Aside,Main,Avatar,Dropdown,DropdownItem,DropdownMenu,Drawer,Image,Row,Col,Tooltip,Tag,Menu,MenuItem,MenuItemGroup,Submenu,Link,Dialog} from 'element-ui'
 import Vue from 'vue'
 
 Vue.prototype.$message=Message
@@ -22,3 +22,10 @@ Vue.use(Image)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Tooltip)
+Vue.use(Tag)
+Vue.use(Menu)
+Vue.use(MenuItem)
+Vue.use(MenuItemGroup)
+Vue.use(Submenu)
+Vue.use(Link)
+Vue.use(Dialog)

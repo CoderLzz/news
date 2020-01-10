@@ -53,8 +53,10 @@ export default {
                         window.localStorage.setItem('token',data.data.token)
                         let avatar='http://localhost'+data.data.avatar
                         this.$store.commit('init',avatar)
+                        this.$store.commit('initusername',data.data.username)
+                        this.$store.commit('initUserId',data.data._id)
                         this.$message.success(data.meta.msg)
-                        this.$router.push('/home')
+                        this.$router.push('/welcome')
                     }else{
                         this.$message.error(data.meta.msg)
                     }

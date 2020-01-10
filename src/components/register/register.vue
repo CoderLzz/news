@@ -10,10 +10,10 @@
           <el-input v-model="regForm.email"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="regForm.password"></el-input>
+          <el-input v-model="regForm.password" type="password"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="ispassword">
-          <el-input v-model="regForm.ispassword"></el-input>
+          <el-input v-model="regForm.ispassword" type="password"></el-input>
         </el-form-item>
         <el-form-item label="注册角色：">
           <el-radio-group v-model="regForm.role">
