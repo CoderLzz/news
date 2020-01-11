@@ -69,7 +69,8 @@
         </div>
       </el-header>
       <el-container>
-        <el-aside width="200px">
+        <el-aside :width="isCollapse?'':'200px'">
+          <div class="btn" @click="trigger">|||</div>
           <el-menu
             :default-active="activeIndex"
             text-color="#fff"
@@ -77,6 +78,8 @@
             background-color="#333744"
             :unique-opened="true"
             :router="true"
+            :collapse="isCollapse"
+            :collapse-transition="false"
           >
             <el-submenu index="1">
               <template slot="title">
@@ -190,6 +193,7 @@ export default {
       }
     }
     return {
+      isCollapse:false,
       avatar: "",
       isShow: false,
       zh: true,
@@ -296,10 +300,14 @@ export default {
     },
     logout(){
       window.localStorage.clear()
+      window.sessionStorage.clear()
       this.$router.push('/login')
     },
     closeDialog(){
       this.$refs.editPasswordForm.resetFields()
+    },
+    trigger(){
+      this.isCollapse=!this.isCollapse
     }
   },
   computed: {
@@ -318,6 +326,9 @@ export default {
 }
 .el-aside {
   background: var(--asidecolor);
+}
+.el-main {
+  background-color: #eaedf1;
 }
 .el-menu {
   border-right: none;
@@ -404,5 +415,17 @@ export default {
 }
 .username{
   margin-right: 20px;
+}
+.btn{
+  text-align: center;
+  color: #fff;
+  font-size: 20px;
+  letter-spacing: 3px;
+  background-color: #4a5064;
+  cursor: pointer;
+  line-height: 2;
+}
+.menuStyle{
+  width: 100px;
 }
 </style>

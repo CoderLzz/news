@@ -6,3 +6,9 @@ body,
     padding: 0;
     margin: 0;
 }
+.el-breadcrumb{
+    margin-bottom: 20px;
+}
+.cell{
+    color: #000 !important;
+}
