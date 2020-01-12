@@ -14,7 +14,10 @@ export default new Vuex.Store({
         themeColor:'',
         themeName:'',
         username:'',
-        userId:''
+        userId:'',
+        activeId:'',
+        role:'',
+        rights:[]
     },
     mutations:{
         init(state,option){
@@ -31,6 +34,15 @@ export default new Vuex.Store({
         },
         initUserId(state,option){
             state.userId=option
+        },
+        initActive(state,option){
+            state.activeId=option
+        },
+        initRole(state,option){
+            state.role=option
+        },
+        initRights(state,option){
+            state.rights=option
         }
     },
     plugins:[vuexLocal.plugin]

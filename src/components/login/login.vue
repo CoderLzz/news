@@ -56,7 +56,18 @@ export default {
                         this.$store.commit('initusername',data.data.username)
                         this.$store.commit('initUserId',data.data._id)
                         this.$message.success(data.meta.msg)
-                        this.$router.push('/welcome')
+                        this.$store.commit('initRole',data.data.role)
+                        this.$store.commit('initRights',data.data.role.rights)
+                        if(data.data.role.code=='0'){
+                          this.$router.push('/welcome')
+                          this.$store.commit('initActive','/welcome')
+                        }else if(data.data.role.code=='1'){
+                          this.$router.push('/write')
+                          this.$store.commit('initActive','/write')
+                        }else{
+                          alert('哈哈哈')
+                        }
+                        
                     }else{
                         this.$message.error(data.meta.msg)
                     }

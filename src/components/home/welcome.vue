@@ -94,9 +94,9 @@ export default {
       let admin = 0;
       let arr = [];
       this.userData.forEach(item => {
-        if (item.role == "0") {
+        if (item.role.code == "0") {
           admin++;
-        } else if (item.role == "1") {
+        } else if (item.role.code == "1") {
           author++;
         } else {
           normalUser++;
@@ -112,9 +112,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.el-card {
-  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
-}
 .dataStatistics {
   margin-top: 20px;
 }

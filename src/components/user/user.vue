@@ -23,15 +23,20 @@
             class="el-icon-delete"
             @click="deleteUser(scope.row._id)"
           >&nbsp;删除</el-button>
-          <el-button type="warning" size="mini" class="el-icon-setting">&nbsp;分配角色</el-button>
+          <el-button
+            type="warning"
+            size="mini"
+            class="el-icon-setting"
+            @click="branchRole(scope.row._id)"
+          >&nbsp;分配角色</el-button>
         </template>
         <template slot="avatar" slot-scope="scope">
           <el-avatar size="large" :src="'http://localhost'+scope.row.avatar"></el-avatar>
           <!-- <button @click="test(scope.row.avatar)">按钮</button> -->
         </template>
         <template slot="role" slot-scope="scope">
-          <el-tag v-if="scope.row.role=='0'">超级管理员</el-tag>
-          <el-tag v-else-if="scope.row.role=='1'">作者</el-tag>
+          <el-tag v-if="scope.row.role.code=='0'">超级管理员</el-tag>
+          <el-tag v-else-if="scope.row.role.code=='1'">作者</el-tag>
           <el-tag v-else>普通用户</el-tag>
         </template>
         <template slot="isActive" slot-scope="scope">
@@ -82,12 +87,37 @@
           <el-button type="primary" @click="editUser">确 定</el-button>
         </span>
       </el-dialog>
+      <!-- 分配角色弹出框 -->
+      <el-dialog title="分配角色" :visible.sync="branchRoleDialog" width="50%">
+        <p>用户名：{{roleUsername}}</p>
+        <div class="select">
+          角色：
+          <el-select v-model="selectValue" placeholder="请选择">
+            <el-option
+              v-for="item in roleList"
+              :key="item._id"
+              :label="item.roleName"
+              :value="item.code"
+            ></el-option>
+          </el-select>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="branchRoleDialog = false">取 消</el-button>
+          <el-button type="primary" @click="editRole">确 定</el-button>
+        </span>
+      </el-dialog>
     </el-card>
   </div>
 </template>
 
 <script>
-import { getUser, putUserById, getUserById,deleteUserById } from "../../api/user/user";
+import {
+  getUser,
+  putUserById,
+  getUserById,
+  deleteUserById
+} from "../../api/user/user";
+import {getAllRole,putRoleById} from '../../api/rights/rights'
 export default {
   data() {
     var checkEmail = (rule, value, callback) => {
@@ -99,7 +129,7 @@ export default {
       }
     };
     return {
-      breadcrumb: ["用户管理"],
+      breadcrumb: ["用户管理",'用户列表'],
       url: "",
       userData: [],
       columns: [
@@ -175,16 +205,18 @@ export default {
       },
       headers: {
         Authorization: window.localStorage.getItem("token")
-      }
+      },
+      branchRoleDialog: false,
+      roleUsername: "",
+      selectValue:'',
+      roleList:[],
+      roleId:''
     };
   },
   created() {
     this.getAllUser(this.query);
   },
   methods: {
-    test(params) {
-      console.log(params);
-    },
     async changActive(params) {
       let data = await putUserById(params._id, params.isActive, "isActive");
       if (data.meta.status == 200) {
@@ -267,12 +299,12 @@ export default {
         type: "warning"
       })
         .then(async () => {
-          let data=await deleteUserById(id)
-          if(data.meta.status==200){
-            this.getAllUser(this.query)
-            this.$message.success(data.meta.msg)
-          }else{
-            this.$message.error(data.meta.msg)
+          let data = await deleteUserById(id);
+          if (data.meta.status == 200) {
+            this.getAllUser(this.query);
+            this.$message.success(data.meta.msg);
+          } else {
+            this.$message.error(data.meta.msg);
           }
         })
         .catch(() => {
@@ -281,6 +313,35 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+    async branchRole(id) {
+      this.roleId=id
+      this.branchRoleDialog = true;
+      let data1 = await getUserById(id);
+      let data2=await getAllRole()
+      if (data1.meta.status == 200) {
+        this.roleUsername = data1.data.username;
+        this.selectValue=data1.data.role.roleName
+      }else{
+        this.$message.error(data1.meta.msg)
+      }
+      if (data2.meta.status == 200) {
+        this.roleList = data2.data
+      }else{
+        this.$message.error(data2.meta.msg)
+      }
+    },
+    async editRole(){
+      let data=await putRoleById(this.roleId,{
+        selectValue:this.selectValue
+      })
+      if(data.meta.status==200){
+        this.$message.success(data.meta.msg)
+        this.branchRoleDialog=false
+        this.getAllUser(this.query)
+      }else{
+        this.$message.error(data.meta.msg)
+      }
     }
   }
 };
@@ -294,6 +355,9 @@ export default {
   margin-bottom: 20px;
 }
 .el-pagination {
+  margin-top: 20px;
+}
+.select{
   margin-top: 20px;
 }
 </style>

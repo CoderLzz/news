@@ -81,69 +81,15 @@
             :collapse="isCollapse"
             :collapse-transition="false"
           >
-            <el-submenu index="1">
+            <el-submenu :index="item._id" v-for="item in menuArr" :key="item._id" v-if="rightsArr.includes(item.authName)">
               <template slot="title">
-                <i class="el-icon-s-platform"></i>
-                <span>首页</span>
+                <i :class="icon[item.authName]"></i>
+                <span>{{item.authName}}</span>
               </template>
-              <el-menu-item index="/welcome" @click="active('/welcome')">
+              <el-menu-item :index="item1.path" @click="active(item1.path)" v-for="(item1,index1) in item.children" :key="item1._id">
                 <template slot="title">
                   <i class="el-icon-menu"></i>
-                  <span>首页</span>
-                </template>
-              </el-menu-item>
-            </el-submenu>
-            <el-submenu index="2">
-              <template slot="title">
-                <i class="iconfont icon-user"></i>
-                <span>用户管理</span>
-              </template>
-              <el-menu-item index="/user" @click="active('/user')">
-                <template slot="title">
-                  <i class="el-icon-menu"></i>
-                  <span>用户列表</span>
-                </template>
-              </el-menu-item>
-            </el-submenu>
-            <el-submenu index="3">
-              <template slot="title">
-                <i class="iconfont icon-tijikongjian"></i>
-                <span>权限管理</span>
-              </template>
-              <el-menu-item index="/rights" @click="active('/rights')">
-                <template slot="title">
-                  <i class="el-icon-menu"></i>
-                  <span>权限列表</span>
-                </template>
-              </el-menu-item>
-              <el-menu-item index="/role" @click="active('/role')">
-                <template slot="title">
-                  <i class="el-icon-menu"></i>
-                  <span>角色管理</span>
-                </template>
-              </el-menu-item>
-            </el-submenu>
-            <el-submenu index="4">
-              <template slot="title">
-                <i class="iconfont icon-danju"></i>
-                <span>文章管理</span>
-              </template>
-              <el-menu-item index="/write" @click="active('/write')">
-                <template slot="title">
-                  <i class="el-icon-menu"></i>
-                  <span>写文章</span>
-                </template>
-              </el-menu-item>
-              <el-menu-item index="/post" @click="active('/post')">
-                <template slot="title">
-                  <i class="el-icon-menu"></i>
-                  <span>文章列表</span>
-                </template>
-              </el-menu-item>
-              <el-menu-item index="/cateilog" @click="active('/cateilog')">
-                <template slot="title">
-                  <i class="el-icon-menu"></i>
-                  <span>分类目录</span>
+                  <span>{{item1.authName}}</span>
                 </template>
               </el-menu-item>
             </el-submenu>
@@ -183,6 +129,7 @@
 <script>
 import { mapMutations, mapState } from "vuex";
 import {putPassword} from '../../api/user/editPassword'
+import {getMenu} from '../../api/rights/rights'
 export default {
   data() {
     var checkPassword=(rule,value,callback)=>{
@@ -229,13 +176,25 @@ export default {
         confirmNewPassword:[
           {validator:checkPassword,trigger:'blur'}
         ]
+      },
+      rightsList:[],
+      menuArr:[],
+      icon:{
+        '首页':'el-icon-s-platform',
+        '用户管理':'iconfont icon-user',
+        '权限管理':'iconfont icon-tijikongjian',
+        '文章管理':'iconfont icon-danju',
+        '评论管理':'el-icon-chat-line-round',
+        '设置':'el-icon-setting'
       }
     };
   },
   created() {
     this.avatar = this.$store.state.avatar;
     this.username = this.$store.state.username;
-    this.activeIndex = window.sessionStorage.getItem("active");
+    this.rightsList=this.$store.state.rights
+    // this.activeIndex = window.sessionStorage.getItem("active");
+    this.activeIndex=this.$store.state.activeId
     if (
       this.$store.state.themeColor == "" ||
       this.$store.state.themeColor == "1"
@@ -249,8 +208,17 @@ export default {
     } else {
       this.themeName1 = this.$store.state.themeName;
     }
+    this.initLeftMenu()
   },
   methods: {
+    async initLeftMenu(){
+      let data=await getMenu()
+      if(data.meta.status==200){
+        this.menuArr=data.data
+      }else{
+        this.$message.error(data.meta.msg)
+      }
+    },
     showDrawer() {
       this.isShow = true;
     },
@@ -275,7 +243,8 @@ export default {
       window.location.reload();
     },
     active(path) {
-      window.sessionStorage.setItem("active", path);
+      this.$store.commit('initActive',path)
+      // window.sessionStorage.setItem("active", path);
       this.activeIndex = path;
     },
     showDialog() {
@@ -312,7 +281,14 @@ export default {
   },
   computed: {
     ...mapMutations(["initThemeName"]),
-    ...mapState(["themeName"])
+    ...mapState(["themeName"]),
+    rightsArr(){
+      let arr=[]
+      this.rightsList.forEach(item=>{
+        arr.push(item.rightName)
+      })
+      return arr
+    }
   }
 };
 </script>
