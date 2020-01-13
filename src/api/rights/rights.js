@@ -27,11 +27,27 @@ async function postAddRole(params){
     return data.data
 }
 
+async function getRoleById(id){
+    let data=await axios.get(`privates/role/${id}`)
+    return data.data
+}
+async function putRoleName(id,editRoleForm){
+    let data=await axios.put(`privates/role/${id}/name`,editRoleForm)
+    return data.data
+}
+async function deleteRoleById(id){
+    let data=await axios.delete(`privates/role/${id}`)
+    return data.data
+}
+
 export {
     getMenu,
     getAllRole,
     putRoleById,
     getAllRights,
     putRoleRights,
-    postAddRole
+    postAddRole,
+    getRoleById,
+    putRoleName,
+    deleteRoleById
 }

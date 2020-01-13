@@ -1,4 +1,4 @@
-import {Button,Form,FormItem,Input,Message,Radio,RadioGroup,PageHeader,Container,Header,Aside,Main,Avatar,Dropdown,DropdownItem,DropdownMenu,Drawer,Image,Row,Col,Tooltip,Tag,Menu,MenuItem,MenuItemGroup,Submenu,Link,Dialog,Breadcrumb,BreadcrumbItem,Card,Divider,Table,TableColumn,Switch,Pagination,Upload,MessageBox,Select,Option,InputNumber} from 'element-ui'
+import {Button,Form,FormItem,Input,Message,Radio,RadioGroup,PageHeader,Container,Header,Aside,Main,Avatar,Dropdown,DropdownItem,DropdownMenu,Drawer,Image,Row,Col,Tooltip,Tag,Menu,MenuItem,MenuItemGroup,Submenu,Link,Dialog,Breadcrumb,BreadcrumbItem,Card,Divider,Table,TableColumn,Switch,Pagination,Upload,MessageBox,Select,Option,InputNumber,Tree} from 'element-ui'
 import Vue from 'vue'
 
 Vue.prototype.$message=Message
@@ -42,3 +42,4 @@ Vue.use(Upload)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(InputNumber)
+Vue.use(Tree)

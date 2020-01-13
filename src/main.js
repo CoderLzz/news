@@ -15,9 +15,15 @@ import i18n from './assets/lang/index'
 import './assets/fonts/iconfont.css'
 //全局组件
 import breadcrumb from './components/common/breadcrumb.vue'
+//导入编辑器
+import { quillEditor } from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 Vue.config.productionTip = false
 Vue.component('breadcrumb',breadcrumb)
+Vue.component('quill-editor',quillEditor)
 Vue.filter('formdate',function(val){
     let date=new Date(val)
     let y=date.getFullYear()

@@ -125,7 +125,7 @@ export default {
     goBack() {
         this.$router.push('/login')
     }
-  }
+  },
 };
 </script>
 

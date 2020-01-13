@@ -15,3 +15,6 @@ body,
 .el-card {
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
 }
+.ql-container{
+    height: 300px !important;
+}

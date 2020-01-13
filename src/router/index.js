@@ -9,6 +9,7 @@ import user from '../components/user/user.vue'
 import write from '../components/post/write.vue'
 import rights from '../components/rights/rights.vue'
 import role from '../components/rights/role.vue'
+import post from '../components/post/post.vue'
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,10 @@ const routes = [{
       {
         path:'/role',
         component:role
+      },
+      {
+        path:'/post',
+        component:post
       }
     ]
   }
