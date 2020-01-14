@@ -10,6 +10,8 @@ import write from '../components/post/write.vue'
 import rights from '../components/rights/rights.vue'
 import role from '../components/rights/role.vue'
 import post from '../components/post/post.vue'
+import comment from '../components/comment/comment.vue'
+import setCate from '../components/set/setCate.vue'
 
 Vue.use(VueRouter)
 
@@ -51,6 +53,14 @@ const routes = [{
       {
         path:'/post',
         component:post
+      },
+      {
+        path:'/comment',
+        component:comment
+      },
+      {
+        path:'/cateilog',
+        component:setCate
       }
     ]
   }

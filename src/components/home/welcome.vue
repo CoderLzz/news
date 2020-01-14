@@ -16,6 +16,7 @@
 <script>
 import echarts from "echarts";
 import { getUser } from "../../api/user/user";
+import {getAllPost} from '../../api/post/post'
 export default {
   data() {
     return {
@@ -56,7 +57,7 @@ export default {
         series: [
           {
             type: "bar",
-            data: [5, 20],
+            data: [],
             itemStyle: {
               normal: {
                 color: function(param) {
@@ -74,6 +75,21 @@ export default {
   mounted() {},
   async created() {
     let data = await getUser({});
+    let article=await getAllPost({})
+    if(article.meta.status==200){
+      let upload=0;
+      let unupload=0
+      let arr=[]
+      article.data.forEach(item=>{
+        if(item.state){
+          upload++
+        }else{
+          unupload++
+        }
+      })
+      arr.push(upload,unupload)
+      this.postOption.series[0].data=arr
+    }
     if (data.meta.status == 200) {
       this.userData = data.data;
       console.log(data);

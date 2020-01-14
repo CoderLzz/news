@@ -18,3 +18,10 @@ body,
 .ql-container{
     height: 300px !important;
 }
+.ivu-table{
+    font-size: 12px !important;
+}
+.el-textarea__inner{
+    margin-top: 10px;
+    resize: none !important;
+}

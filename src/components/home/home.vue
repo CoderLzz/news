@@ -131,6 +131,7 @@ import { mapMutations, mapState } from "vuex";
 import {putPassword} from '../../api/user/editPassword'
 import {getMenu} from '../../api/rights/rights'
 export default {
+  inject:['reload'],
   data() {
     var checkPassword=(rule,value,callback)=>{
       if(this.editPasswordForm.newPassword==value){
@@ -193,7 +194,6 @@ export default {
     this.avatar = this.$store.state.avatar;
     this.username = this.$store.state.username;
     this.rightsList=this.$store.state.rights
-    // this.activeIndex = window.sessionStorage.getItem("active");
     this.activeIndex=this.$store.state.activeId
     if (
       this.$store.state.themeColor == "" ||

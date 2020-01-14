@@ -1,4 +1,4 @@
-import {Button,Menu,MenuItem,Icon,Submenu,MenuGroup,Drawer,Table,Upload} from 'view-design'
+import {Button,Menu,MenuItem,Icon,Submenu,MenuGroup,Drawer,Table,Upload,Tooltip} from 'view-design'
 import Vue from 'vue'
 
 Vue.component('Button', Button);
@@ -10,3 +10,4 @@ Vue.component('MenuGroup', MenuGroup);
 Vue.component('Drawer', Drawer);
 Vue.component('Table', Table);
 Vue.component('Upload', Upload);
+Vue.component('Tooltip', Tooltip);
