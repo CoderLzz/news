@@ -24,7 +24,7 @@ async function putPostById(id,params,flag){
     return data.data
 }
 
-async function deletePost(id){
+async function deleteOnePost(id){
     let data=await axios.delete(`privates/post/${id}`)
     return data.data
 }
@@ -41,6 +41,6 @@ export {
     getAllPost,
     getPostById,
     putPostById,
-    deletePost,
+    deleteOnePost,
     getScreen
 }

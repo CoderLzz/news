@@ -12,6 +12,8 @@ import role from '../components/rights/role.vue'
 import post from '../components/post/post.vue'
 import comment from '../components/comment/comment.vue'
 import setCate from '../components/set/setCate.vue'
+import setWeb from '../components/set/setWeb.vue'
+import setSwiper from '../components/set/setSwiper.vue'
 
 Vue.use(VueRouter)
 
@@ -61,6 +63,14 @@ const routes = [{
       {
         path:'/cateilog',
         component:setCate
+      },
+      {
+        path:'/websetting',
+        component:setWeb
+      },
+      {
+        path:'/swiper',
+        component:setSwiper
       }
     ]
   }

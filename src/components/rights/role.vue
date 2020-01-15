@@ -35,7 +35,12 @@
               class="el-icon-delete"
               @click="deleteRole(scope.row._id)"
             >&nbsp;删除</el-button>
-            <el-button type="warning" size="mini" class="el-icon-setting" @click="showBranchRights(scope.row._id)">&nbsp;分配权限</el-button>
+            <el-button
+              type="warning"
+              size="mini"
+              class="el-icon-setting"
+              @click="showBranchRights(scope.row._id)"
+            >&nbsp;分配权限</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -78,7 +83,14 @@
       </el-dialog>
       <!-- 分配权限弹出框 -->
       <el-dialog title="分配权限" :visible.sync="branchRights" width="30%">
-        <el-tree :data="rightsData" :props="defaultProps" show-checkbox node-key="_id" :default-checked-keys="checkArr" ref="rightsTree"></el-tree>
+        <el-tree
+          :data="rightsData"
+          :props="defaultProps"
+          show-checkbox
+          node-key="_id"
+          :default-checked-keys="checkArr"
+          ref="rightsTree"
+        ></el-tree>
         <span slot="footer" class="dialog-footer">
           <el-button @click="branchRights = false">取 消</el-button>
           <el-button type="primary" @click="branch">确 定</el-button>
@@ -123,12 +135,12 @@ export default {
         ]
       },
       roleId: "",
-      branchRights:false,
-      rightsData:[],
-      defaultProps:{
-        label:'rightName'
+      branchRights: false,
+      rightsData: [],
+      defaultProps: {
+        label: "rightName"
       },
-      checkArr:[]
+      checkArr: []
     };
   },
   methods: {
@@ -174,13 +186,20 @@ export default {
     showAddRoleDialog() {
       this.addRoleDialog = true;
     },
-    async addRole() {
-      let data = await postAddRole(this.addRoleForm);
-      if (data.meta.status == 200) {
-        this.$message.success(data.meta.msg);
-      }
-      this.addRoleDialog = false;
-      this.getRole();
+    addRole() {
+      this.$refs.addRoleForm.validate(async valida => {
+        if (valida) {
+          let data = await postAddRole(this.addRoleForm);
+          if (data.meta.status == 200) {
+            this.$message.success(data.meta.msg);
+          }
+          this.addRoleDialog = false;
+          this.getRole();
+        } else {
+          this.$message.error("格式错误");
+          return false;
+        }
+      });
     },
     async showEditRoleDialog(id) {
       this.editRoleDialog = true;
@@ -192,15 +211,22 @@ export default {
         this.$message.error(data.meta.msg);
       }
     },
-    async editRole() {
-      let data = await putRoleName(this.roleId, this.editRoleForm);
-      if (data.meta.status == 200) {
-        this.$message.success(data.meta.msg);
-        this.editRoleDialog = false;
-        this.getRole();
-      } else {
-        this.$message.error(data.meta.msg);
-      }
+    editRole() {
+      this.$refs.editRoleForm.validate(async valida => {
+        if (valida) {
+          let data = await putRoleName(this.roleId, this.editRoleForm);
+          if (data.meta.status == 200) {
+            this.$message.success(data.meta.msg);
+            this.editRoleDialog = false;
+            this.getRole();
+          } else {
+            this.$message.error(data.meta.msg);
+          }
+        }else{
+          this.$message.error('格式错误')
+          return false
+        }
+      });
     },
     closeDialog() {
       this.$refs.addRoleForm.resetFields();
@@ -215,12 +241,12 @@ export default {
         type: "warning"
       })
         .then(async () => {
-          let data=await deleteRoleById(id)
-          if(data.meta.status==200){
-            this.$message.success(data.meta.msg)
-            this.getRole()
-          }else{
-            this.$message.error(data.meta.msg)
+          let data = await deleteRoleById(id);
+          if (data.meta.status == 200) {
+            this.$message.success(data.meta.msg);
+            this.getRole();
+          } else {
+            this.$message.error(data.meta.msg);
           }
         })
         .catch(() => {
@@ -230,37 +256,37 @@ export default {
           });
         });
     },
-    async showBranchRights(id){
-      this.branchRights=true
-      this.roleId=id
-      let data=await getAllRights()
-      let checkRights=await getRoleById(id)
-      if(data.meta.status==200){
-        this.rightsData=data.data
-      }else{
-        this.$message.error(data.meta.msg)
+    async showBranchRights(id) {
+      this.branchRights = true;
+      this.roleId = id;
+      let data = await getAllRights();
+      let checkRights = await getRoleById(id);
+      if (data.meta.status == 200) {
+        this.rightsData = data.data;
+      } else {
+        this.$message.error(data.meta.msg);
       }
-      if(checkRights.meta.status==200){
-        let rightsArr=[]
-        checkRights.data.rights.forEach(item=>{
-          rightsArr.push(item._id)
-        })
-        this.checkArr=rightsArr
-      }else{
-        this.$message.error(data.meta.msg)
+      if (checkRights.meta.status == 200) {
+        let rightsArr = [];
+        checkRights.data.rights.forEach(item => {
+          rightsArr.push(item._id);
+        });
+        this.checkArr = rightsArr;
+      } else {
+        this.$message.error(data.meta.msg);
       }
     },
-    async branch(){
-      let checked=this.$refs.rightsTree.getCheckedKeys()
-      let data=await putRoleRights(this.roleId,{
-        rightsList:checked
-      })
-      if(data.meta.status==200){
-        this.$message.success(data.meta.msg)
-        this.getRole()
-        this.branchRights=false
-      }else{
-        this.$message.error(data.meta.msg)
+    async branch() {
+      let checked = this.$refs.rightsTree.getCheckedKeys();
+      let data = await putRoleRights(this.roleId, {
+        rightsList: checked
+      });
+      if (data.meta.status == 200) {
+        this.$message.success(data.meta.msg);
+        this.getRole();
+        this.branchRights = false;
+      } else {
+        this.$message.error(data.meta.msg);
       }
     }
   },

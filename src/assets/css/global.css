@@ -6,22 +6,36 @@ body,
     padding: 0;
     margin: 0;
 }
-.el-breadcrumb{
+
+.el-breadcrumb {
     margin-bottom: 20px;
 }
-.cell{
+
+.cell {
     color: #000 !important;
 }
+
 .el-card {
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
 }
-.ql-container{
+
+.ql-container {
     height: 300px !important;
 }
-.ivu-table{
+
+.ivu-table {
     font-size: 12px !important;
 }
-.el-textarea__inner{
+
+.el-textarea__inner {
     margin-top: 10px;
     resize: none !important;
+}
+
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }

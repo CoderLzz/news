@@ -147,34 +147,41 @@ export default {
       this.prePic = true;
       this.url = "http://localhost/" + file.response.data;
     },
-    async submitPost(flag) {
-      if (flag == 2) {
-        this.postForm.uploadDate = Date.now();
-        let data = await addPost(this.postForm);
-        if (data.meta.status == 200) {
-          this.$message.success(data.meta.msg);
-          this.$refs.postForm.resetFields();
-          this.$refs.upload.clearFiles();
-          this.fileList=[]
-          this.postForm.categories = "";
-          this.postForm.state = "false";
-          delete this.postForm.uploadDate
-        } else {
-          this.$message.error(data.meta.msg);
+    submitPost(flag) {
+      this.$refs.postForm.validate(async valida=>{
+        if(valida){
+          if (flag == 2) {
+            this.postForm.uploadDate = Date.now();
+            let data = await addPost(this.postForm);
+            if (data.meta.status == 200) {
+              this.$message.success(data.meta.msg);
+              this.$refs.postForm.resetFields();
+              this.$refs.upload.clearFiles();
+              this.fileList=[]
+              this.postForm.categories = "";
+              this.postForm.state = "false";
+              delete this.postForm.uploadDate
+            } else {
+              this.$message.error(data.meta.msg);
+            }
+          } else {
+            let data = await addPost(this.postForm);
+            if (data.meta.status == 200) {
+              this.$message.success(data.meta.msg);
+              this.$refs.postForm.resetFields();
+              this.$refs.upload.clearFiles();
+              this.fileList=[]
+              this.postForm.categories = "";
+              this.postForm.state = "false";
+            } else {
+              this.$message.error(data.meta.msg);
+            }
+          }
+        }else{
+          this.$message.error('格式错误')
+          return false
         }
-      } else {
-        let data = await addPost(this.postForm);
-        if (data.meta.status == 200) {
-          this.$message.success(data.meta.msg);
-          this.$refs.postForm.resetFields();
-          this.$refs.upload.clearFiles();
-          this.fileList=[]
-          this.postForm.categories = "";
-          this.postForm.state = "false";
-        } else {
-          this.$message.error(data.meta.msg);
-        }
-      }
+      })
     },
     reset() {
       this.$refs.postForm.resetFields();
@@ -194,19 +201,26 @@ export default {
         this.postForm.state = data.data.state.toString();
       }
     },
-    async editPost() {
-      if(this.postForm.cover==''){
-        this.postForm.cover=this.fileList[0].url.split('localhost')[1].split('/')[1]
-      }
-      let data = await putPostById(this.idFlag, this.postForm,'');
-      if (data.meta.status == 200) {
-        this.$message.success(data.meta.msg);
-        this.reload()
-        this.$store.commit('initActive','/post')
-        this.$router.push('/post')
-      } else {
-        this.$message.error(data.meta.msg);
-      }
+    editPost() {
+      this.$refs.postForm.validate(async valida=>{
+        if(valida){
+          if(this.postForm.cover==''){
+            this.postForm.cover=this.fileList[0].url.split('localhost')[1].split('/')[1]
+          }
+          let data = await putPostById(this.idFlag, this.postForm,'');
+          if (data.meta.status == 200) {
+            this.$message.success(data.meta.msg);
+            this.reload()
+            this.$store.commit('initActive','/post')
+            this.$router.push('/post')
+          } else {
+            this.$message.error(data.meta.msg);
+          }
+        }else{
+          this.$message.error('格式错误')
+          return false
+        }
+      })
     }
   },
   async created() {

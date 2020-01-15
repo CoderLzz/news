@@ -117,7 +117,7 @@ import {
   getUserById,
   deleteUserById
 } from "../../api/user/user";
-import {getAllRole,putRoleById} from '../../api/rights/rights'
+import { getAllRole, putRoleById } from "../../api/rights/rights";
 export default {
   data() {
     var checkEmail = (rule, value, callback) => {
@@ -129,7 +129,7 @@ export default {
       }
     };
     return {
-      breadcrumb: ["用户管理",'用户列表'],
+      breadcrumb: ["用户管理", "用户列表"],
       url: "",
       userData: [],
       columns: [
@@ -208,9 +208,9 @@ export default {
       },
       branchRoleDialog: false,
       roleUsername: "",
-      selectValue:'',
-      roleList:[],
-      roleId:''
+      selectValue: "",
+      roleList: [],
+      roleId: ""
     };
   },
   created() {
@@ -271,22 +271,29 @@ export default {
     handleFormatError() {},
     handleMaxSize() {},
     handlePreview() {},
-    async editUser() {
-      let data = await putUserById(
-        this.editUserForm.id,
-        {
-          username: this.editUserForm.username,
-          email: this.editUserForm.email
-        },
-        "info"
-      );
-      if (data.meta.status == 200) {
-        this.getAllUser(this.query);
-        this.$message.success(data.meta.msg);
-      } else {
-        this.$message.error(data.meta.msg);
-      }
-      this.editDialog = false;
+    editUser() {
+      this.$refs.editUserForm.validate(async valida => {
+        if (valida) {
+          let data = await putUserById(
+            this.editUserForm.id,
+            {
+              username: this.editUserForm.username,
+              email: this.editUserForm.email
+            },
+            "info"
+          );
+          if (data.meta.status == 200) {
+            this.getAllUser(this.query);
+            this.$message.success(data.meta.msg);
+          } else {
+            this.$message.error(data.meta.msg);
+          }
+          this.editDialog = false;
+        }else{
+          this.$message.error('格式错误')
+          return false
+        }
+      });
     },
     closeEditDialog() {
       this.$refs.editUserForm.resetFields();
@@ -315,32 +322,32 @@ export default {
         });
     },
     async branchRole(id) {
-      this.roleId=id
+      this.roleId = id;
       this.branchRoleDialog = true;
       let data1 = await getUserById(id);
-      let data2=await getAllRole()
+      let data2 = await getAllRole();
       if (data1.meta.status == 200) {
         this.roleUsername = data1.data.username;
-        this.selectValue=data1.data.role.roleName
-      }else{
-        this.$message.error(data1.meta.msg)
+        this.selectValue = data1.data.role.roleName;
+      } else {
+        this.$message.error(data1.meta.msg);
       }
       if (data2.meta.status == 200) {
-        this.roleList = data2.data
-      }else{
-        this.$message.error(data2.meta.msg)
+        this.roleList = data2.data;
+      } else {
+        this.$message.error(data2.meta.msg);
       }
     },
-    async editRole(){
-      let data=await putRoleById(this.roleId,{
-        selectValue:this.selectValue
-      })
-      if(data.meta.status==200){
-        this.$message.success(data.meta.msg)
-        this.branchRoleDialog=false
-        this.getAllUser(this.query)
-      }else{
-        this.$message.error(data.meta.msg)
+    async editRole() {
+      let data = await putRoleById(this.roleId, {
+        selectValue: this.selectValue
+      });
+      if (data.meta.status == 200) {
+        this.$message.success(data.meta.msg);
+        this.branchRoleDialog = false;
+        this.getAllUser(this.query);
+      } else {
+        this.$message.error(data.meta.msg);
       }
     }
   }
@@ -357,7 +364,7 @@ export default {
 .el-pagination {
   margin-top: 20px;
 }
-.select{
+.select {
   margin-top: 20px;
 }
 </style>

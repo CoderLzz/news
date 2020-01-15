@@ -9,7 +9,13 @@
           </el-input>
         </el-col>
         <el-col :span="18">
-          <el-select v-model="query.postCate" placeholder="请选择文章分类" clearable @clear="getPost(query)" @change="getPost(query)">
+          <el-select
+            v-model="query.postCate"
+            placeholder="请选择文章分类"
+            clearable
+            @clear="getPost(query)"
+            @change="getPost(query)"
+          >
             <el-option
               v-for="item in postCateData"
               :key="item._id"
@@ -17,7 +23,14 @@
               :value="item._id"
             ></el-option>
           </el-select>
-          <el-select v-model="query.postState" placeholder="请选择文章状态" class="middle" clearable @clear="getPost(query)" @change="getPost(query)">
+          <el-select
+            v-model="query.postState"
+            placeholder="请选择文章状态"
+            class="middle"
+            clearable
+            @clear="getPost(query)"
+            @change="getPost(query)"
+          >
             <el-option
               v-for="item in postStateData"
               :key="item.value"
@@ -27,7 +40,7 @@
           </el-select>
         </el-col>
       </el-row>
-      <Table :columns="columns" :data="postData" border disabled-hover>
+      <Table :columns="columns" :data="postData" border disabled-hover @on-row-dblclick="showId">
         <template slot="author" slot-scope="scope">{{scope.row.author.username}}</template>
         <template slot="cate" slot-scope="scope">{{scope.row.categories.cateName}}</template>
         <template
@@ -68,13 +81,25 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
+      <!-- 双击显示文章id -->
+      <el-dialog title="该文章ID" :visible.sync="showIdDialog" width="30%">
+        <span>{{showIdDialogId}}</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="showIdDialog = false">关 闭</el-button>
+        </span>
+      </el-dialog>
     </el-card>
   </div>
 </template>
 
 <script>
-import { getAllPost, putPostById, deletePost,getScreen } from "../../api/post/post";
-import {getAllCate} from '../../api/post/getCate'
+import {
+  getAllPost,
+  putPostById,
+  deleteOnePost,
+  getScreen
+} from "../../api/post/post";
+import { getAllCate } from "../../api/post/getCate";
 export default {
   inject: ["reload"],
   data() {
@@ -141,15 +166,17 @@ export default {
         searchPost: "",
         size: 5,
         currentPage: 1,
-        postCate:'',
-        postState:'',
+        postCate: "",
+        postState: ""
       },
       total: 0,
-      postCateData:[],
-      postStateData:[
-        {label:'未发布',value:false},
-        {label:'已发布',value:true}
-      ]
+      postCateData: [],
+      postStateData: [
+        { label: "未发布", value: false },
+        { label: "已发布", value: true }
+      ],
+      showIdDialog:false,
+      showIdDialogId:''
     };
   },
   methods: {
@@ -198,7 +225,7 @@ export default {
         type: "warning"
       })
         .then(async () => {
-          let data = await deletePost(id);
+          let data = await deleteOnePost(id);
           if (data.meta.status == 200) {
             this.$message.success(data.meta.msg);
             this.getPost(this.query);
@@ -213,25 +240,24 @@ export default {
           });
         });
     },
-    async getSearch(){
-      let data=await getAllCate()
-      if(data.meta.status==200){
-        this.postCateData=data.data
-      }else{
-        this.$message.error(data.meta.msg)
+    async getSearch() {
+      let data = await getAllCate();
+      if (data.meta.status == 200) {
+        this.postCateData = data.data;
+      } else {
+        this.$message.error(data.meta.msg);
       }
     },
-    // async screen(){
-    //   let data=await getScreen(this.postCate,this.postState,this.query)
-    //   if(data.meta.status==200){
-    //     this.postData=data.data.records
-    //     this.total=data.data.total
-    //   }
-    // }
+    showId(data, index) {
+      if(this.$store.state.role=='0'){
+        this.showIdDialog=true
+        this.showIdDialogId=data._id
+      }
+    }
   },
   created() {
     this.getPost(this.query);
-    this.getSearch()
+    this.getSearch();
   }
 };
 </script>
@@ -247,7 +273,7 @@ export default {
   width: 70px;
   padding: 7px 10px;
 }
-.middle{
+.middle {
   margin: 0 10px;
 }
 </style>

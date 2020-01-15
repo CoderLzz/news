@@ -11,10 +11,10 @@
         label-width="70px"
       >
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model="loginForm.email"></el-input>
+          <el-input v-model="loginForm.email" prefix-icon="iconfont icon-user"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="loginForm.password" type="password"></el-input>
+          <el-input v-model="loginForm.password" type="password" prefix-icon="iconfont icon-3702mima"></el-input>
         </el-form-item>
         <el-form-item class="right">
           <el-button type="primary" @click="login">{{$t("login.login")}}</el-button>
@@ -56,7 +56,7 @@ export default {
                         this.$store.commit('initusername',data.data.username)
                         this.$store.commit('initUserId',data.data._id)
                         this.$message.success(data.meta.msg)
-                        this.$store.commit('initRole',data.data.role)
+                        this.$store.commit('initRole',data.data.role.code)
                         this.$store.commit('initRights',data.data.role.rights)
                         if(data.data.role.code=='0'){
                           this.$router.push('/welcome')
@@ -121,5 +121,8 @@ export default {
 .right{
     display: flex;
     justify-content: flex-end
+}
+.iconfont{
+  margin-left: 5px !important;
 }
 </style>
