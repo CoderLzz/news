@@ -10,12 +10,7 @@
       <el-table :data="roleList" border stripe>
         <el-table-column type="expand">
           <template slot-scope="scope">
-            <el-tag
-              v-for="(item,index) in scope.row.rights"
-              :key="index"
-              closable
-              @close="removeTag(scope.row,item._id)"
-            >{{item.rightName}}</el-tag>
+            <el-tag closable @close="removeTag(scope.row,item._id)" v-for="(item,index) in scope.row.rights" :key="index">{{item.rightName}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column type="index" label="#"></el-table-column>
@@ -146,6 +141,7 @@ export default {
   methods: {
     async getRole() {
       let data = await getAllRole();
+      console.log(data);
       if (data.meta.status == 200) {
         this.roleList = data.data;
       } else {
@@ -222,9 +218,9 @@ export default {
           } else {
             this.$message.error(data.meta.msg);
           }
-        }else{
-          this.$message.error('格式错误')
-          return false
+        } else {
+          this.$message.error("格式错误");
+          return false;
         }
       });
     },

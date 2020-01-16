@@ -33,43 +33,43 @@ const routes = [{
     path: '/home',
     component: home,
     children: [{
-        path: '/welcome',
+        path: '/welcome/welcome',
         component: welcome
       },
       {
-        path: '/user',
+        path: '/user/userList',
         component: user
       },
       {
-        path:'/write',
+        path:'/post/write',
         component:write
       },
       {
-        path:'/rights',
+        path:'/rights/rightsList',
         component:rights
       },
       {
-        path:'/role',
+        path:'/rights/roleAdmin',
         component:role
       },
       {
-        path:'/post',
+        path:'/post/postList',
         component:post
       },
       {
-        path:'/comment',
+        path:'/comment/commentList',
         component:comment
       },
       {
-        path:'/cateilog',
+        path:'/setting/cateilog',
         component:setCate
       },
       {
-        path:'/websetting',
+        path:'/setting/websetting',
         component:setWeb
       },
       {
-        path:'/swiper',
+        path:'/setting/swiper',
         component:setSwiper
       }
     ]
@@ -85,12 +85,16 @@ router.beforeEach((to, from, next) => {
   const token = window.localStorage.getItem('token')
   if (!token) return next('/login')
   next()
-  if (store.state.role.code == '1') {
-    if(to.path=='/post'||to.path=='/write'){
-      next()
-    }else{
-      return next('/login')
-    }
+  let arr=[]
+  store.state.rights.forEach(item=>{
+    arr.push('/'+item.path.split('/')[1])
+  })
+  console.log(arr);
+  console.log('/'+to.path.split('/')[1]);
+  if(arr.includes('/'+to.path.split('/')[1])){
+    next()
+  }else{
+    return next('/login')
   }
 })
 

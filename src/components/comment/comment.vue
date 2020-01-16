@@ -17,7 +17,7 @@
       <Table :columns="columns" :data="commentData" border disabled-hover>
         <template slot-scope="scope" slot="author">{{scope.row.author}}</template>
         <template slot-scope="scope" slot="createDate">{{scope.row.createDate|formdate}}</template>
-        <template slot-scope="scope" slot="article">{{scope.row.article.title}}</template>
+        <template slot-scope="scope" slot="article">{{scope.row.article==null?'该文章以删除':scope.row.article.title}}</template>
         <template slot-scope="scope" slot="active">
           <el-button
             type="primary"

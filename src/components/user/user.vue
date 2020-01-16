@@ -35,9 +35,7 @@
           <!-- <button @click="test(scope.row.avatar)">按钮</button> -->
         </template>
         <template slot="role" slot-scope="scope">
-          <el-tag v-if="scope.row.role.code=='0'">超级管理员</el-tag>
-          <el-tag v-else-if="scope.row.role.code=='1'">作者</el-tag>
-          <el-tag v-else>普通用户</el-tag>
+          <el-tag>{{scope.row.role.roleName}}</el-tag>
         </template>
         <template slot="isActive" slot-scope="scope">
           <el-switch v-model="scope.row.isActive" @change="changActive(scope.row)"></el-switch>
