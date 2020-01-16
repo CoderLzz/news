@@ -22,6 +22,8 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 //导入font-awesome
 import 'font-awesome/css/font-awesome.min.css'
+//NProgress的样式
+import 'nprogress/nprogress.css'
 
 Vue.config.productionTip = false
 Vue.component('breadcrumb',breadcrumb)
