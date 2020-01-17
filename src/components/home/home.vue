@@ -195,14 +195,6 @@ export default {
     this.username = this.$store.state.username;
     this.rightsList=this.$store.state.rights
     this.activeIndex=this.$store.state.activeId
-    if (
-      this.$store.state.themeColor == "" ||
-      this.$store.state.themeColor == "1"
-    ) {
-      require("../../assets/css/theme/classic.css");
-    } else {
-      require("../../assets/css/theme/technology.css");
-    }
     if (this.$store.state.themeName == "") {
       this.themeName1 = "经典";
     } else {

@@ -39,6 +39,19 @@ Vue.filter('formdate',function(val){
     return `${y}-${m}-${d} ${h}:${mi}:${s}`
 })
 
+if (
+  store.state.themeColor == "" ||
+  store.state.themeColor == "1"
+) {
+  require.ensure([], function(require){
+    require('./assets/css/theme/classic.css');
+  });
+} else {
+  require.ensure([], function(require){
+    require('./assets/css/theme/technology.css');
+  });
+}
+
 new Vue({
   router,
   store,
