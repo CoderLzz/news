@@ -4,17 +4,16 @@
       <div class="avatar">
         <img src="../../assets/img/logo.png" alt />
       </div>
-      <el-form
-        :model="loginForm"
-        :rules="loginFormRules"
-        ref="loginForm"
-        label-width="70px"
-      >
+      <el-form :model="loginForm" :rules="loginFormRules" ref="loginForm" label-width="70px">
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="loginForm.email" prefix-icon="iconfont icon-user"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="loginForm.password" type="password" prefix-icon="iconfont icon-3702mima"></el-input>
+          <el-input
+            v-model="loginForm.password"
+            type="password"
+            prefix-icon="iconfont icon-3702mima"
+          ></el-input>
         </el-form-item>
         <el-form-item class="right">
           <el-button type="primary" @click="login">{{$t("login.login")}}</el-button>
@@ -50,27 +49,30 @@ export default {
                 if(flag){
                     let data=await loginNews(this.loginForm)
                     console.log(data);
-                    if(data.meta.status==200){
-                        window.localStorage.setItem('token',data.data.token)
-                        let avatar='http://localhost'+data.data.avatar
-                        this.$store.commit('init',avatar)
-                        this.$store.commit('initusername',data.data.username)
-                        this.$store.commit('initUserId',data.data._id)
-                        this.$message.success(data.meta.msg)
-                        this.$store.commit('initRole',data.data.role.code)
-                        this.$store.commit('initRights',data.data.role.rights)
-                        this.$router.push(data.data.role.rights[0].path)
-                        this.$store.commit('initActive',data.data.role.rights[0].path)
-                        // if(data.data.role.code=='0'){
-                        //   this.$router.push('/welcome')
-                        //   this.$store.commit('initActive','/welcome')
-                        // }else if(data.data.role.code=='1'){
-                        //   this.$router.push('/write')
-                        //   this.$store.commit('initActive','/write')
-                        // }else{
-                        //   alert('哈哈哈')
-                        // }
-                        
+                    if(data.meta.status==200){                       
+                        if(data.data.isActive){
+                          window.localStorage.setItem('token',data.data.token)
+                          let avatar='http://localhost'+data.data.avatar
+                          this.$store.commit('init',avatar)
+                          this.$store.commit('initusername',data.data.username)
+                          this.$store.commit('initUserId',data.data._id)
+                          this.$message.success(data.meta.msg)
+                          this.$store.commit('initRole',data.data.role.code)
+                          this.$store.commit('initRights',data.data.role.rights)
+                          this.$router.push(data.data.role.rights[0].path)
+                          this.$store.commit('initActive',data.data.role.rights[0].path)
+                          // if(data.data.role.code=='0'){
+                          //   this.$router.push('/welcome')
+                          //   this.$store.commit('initActive','/welcome')
+                          // }else if(data.data.role.code=='1'){
+                          //   this.$router.push('/write')
+                          //   this.$store.commit('initActive','/write')
+                          // }else{
+                          //   alert('哈哈哈')
+                          // }
+                        }else{
+                          this.$message.error('该用户已被封禁，请联系管理员解除封禁')
+                        }
                     }else{
                         this.$message.error(data.meta.msg)
                     }
@@ -117,15 +119,15 @@ export default {
     }
   }
 }
-.el-form{
-    margin-top: 100px;
-    padding-right: 30px;
+.el-form {
+  margin-top: 100px;
+  padding-right: 30px;
 }
-.right{
-    display: flex;
-    justify-content: flex-end
+.right {
+  display: flex;
+  justify-content: flex-end;
 }
-.iconfont{
+.iconfont {
   margin-left: 5px !important;
 }
 </style>
