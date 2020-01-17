@@ -84,13 +84,10 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/login' || to.path === '/register') return next()
   const token = window.localStorage.getItem('token')
   if (!token) return next('/login')
-  next()
   let arr=[]
   store.state.rights.forEach(item=>{
     arr.push('/'+item.path.split('/')[1])
   })
-  console.log(arr);
-  console.log('/'+to.path.split('/')[1]);
   if(arr.includes('/'+to.path.split('/')[1])){
     next()
   }else{
