@@ -211,8 +211,8 @@ export default {
           if (data.meta.status == 200) {
             this.$message.success(data.meta.msg);
             this.reload()
-            this.$store.commit('initActive','/post')
-            this.$router.push('/post')
+            this.$store.commit('initActive','/post/postList')
+            this.$router.push('/post/postList')
           } else {
             this.$message.error(data.meta.msg);
           }

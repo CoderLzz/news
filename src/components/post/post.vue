@@ -205,9 +205,9 @@ export default {
       this.getPost(this.query);
     },
     editPost(id) {
-      this.$store.commit("initActive", "/write");
+      this.$store.commit("initActive", "/post/write");
       this.reload();
-      this.$router.push({ path: "/write", query: { flag: id } });
+      this.$router.push({ path: "/post/write", query: { flag: id } });
     },
     async uploadPost(params) {
       let data = await putPostById(params._id, !params.state, "state");
