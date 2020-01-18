@@ -49,7 +49,10 @@ export default {
                 if(flag){
                     let data=await loginNews(this.loginForm)
                     console.log(data);
-                    if(data.meta.status==200){                       
+                    if(data.meta.status==200){
+                      if(data.data.role.rights.length==0){
+                        this.$message.error('该用户不具有登录管理系统的权限')
+                      }else{
                         if(data.data.isActive){
                           window.localStorage.setItem('token',data.data.token)
                           let avatar='http://localhost'+data.data.avatar
@@ -61,18 +64,10 @@ export default {
                           this.$store.commit('initRights',data.data.role.rights)
                           this.$router.push(data.data.role.rights[0].path)
                           this.$store.commit('initActive',data.data.role.rights[0].path)
-                          // if(data.data.role.code=='0'){
-                          //   this.$router.push('/welcome')
-                          //   this.$store.commit('initActive','/welcome')
-                          // }else if(data.data.role.code=='1'){
-                          //   this.$router.push('/write')
-                          //   this.$store.commit('initActive','/write')
-                          // }else{
-                          //   alert('哈哈哈')
-                          // }
                         }else{
                           this.$message.error('该用户已被封禁，请联系管理员解除封禁')
                         }
+                      }                       
                     }else{
                         this.$message.error(data.meta.msg)
                     }
