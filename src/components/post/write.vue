@@ -226,7 +226,7 @@ export default {
   async created() {
     this.postForm.author = this.$store.state.userId;
     this.getCate();
-    let flag = location.hash.split("=")[1] ? location.hash.split("=")[1] : "";
+    let flag = location.search.split("=")[1] ? location.search.split("=")[1] : "";
     this.idFlag = flag;
     if (flag != "") {
       this.getPostId(flag);
