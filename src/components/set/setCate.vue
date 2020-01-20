@@ -204,14 +204,27 @@ export default {
           });
         });
     },
-    async deleteMany() {
-      let data = await deleteManyCate(this.selectionArr);
-      if (data.meta.status == 200) {
-        this.$message.success(data.meta.msg);
-        this.getCate();
-      } else {
-        this.$message.error(data.meta.msg);
-      }
+    deleteMany() {
+      this.$confirm("此操作将批量删除分类, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
+          let data = await deleteManyCate(this.selectionArr);
+          if (data.meta.status == 200) {
+            this.$message.success(data.meta.msg);
+            this.getCate();
+          } else {
+            this.$message.error(data.meta.msg);
+          }
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     },
     collectCate(selection, row) {
       this.selectionArr = selection;
