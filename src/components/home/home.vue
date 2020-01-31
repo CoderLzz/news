@@ -11,10 +11,10 @@
             <el-tag>{{username}}</el-tag>
           </div>
           <div class="logout">
-            <el-button type="primary" size="small" @click="logout">退出</el-button>
+            <el-button type="primary" size="small" @click="logout">{{$t('home.logout')}}</el-button>
           </div>
           <div class="password">
-            <el-link :underline="false" @click.prevent="showDialog">修改密码</el-link>
+            <el-link :underline="false" @click.prevent="showDialog">{{$t('home.changePassword')}}</el-link>
           </div>
           <div class="menu">
             <Icon type="md-more" size="25" color="#fff" @click="showDrawer" />
@@ -23,20 +23,20 @@
           <Drawer :closable="true" v-model="isShow" width="320">
             <template slot-scope="scope">
               <div class="header">
-                <span>设置</span>
+                <span>{{$t('home.setting')}}</span>
               </div>
               <div class="main">
                 <div class="one">
-                  <span>语言</span>
+                  <span>{{$t('home.language')}}</span>
                   <div class="one-right">
-                    <el-tooltip effect="dark" content="简体中文" placement="top" :enterable="false">
+                    <el-tooltip effect="dark" :content="$t('home.chinese')" placement="top" :enterable="false">
                       <div class="china">
                         <img src="../../assets/img/china.png" width="50px" @click="changeZH" />
                         <div class="circle" v-show="zh"></div>
                       </div>
                     </el-tooltip>
                     <div class="space"></div>
-                    <el-tooltip effect="dark" content="英文" placement="top" :enterable="false">
+                    <el-tooltip effect="dark" :content="$t('home.english')" placement="top" :enterable="false">
                       <div class="english">
                         <img src="../../assets/img/English.png" width="50px" @click="changeEN" />
                         <div class="circle" v-show="en"></div>
@@ -45,7 +45,7 @@
                   </div>
                 </div>
                 <el-row :gutter="20" justify="space-between" type="flex">
-                  <el-col :span="6">主题</el-col>
+                  <el-col :span="6">{{$t('home.theme')}}</el-col>
                   <el-col :span="10">
                     <el-dropdown placement="bottom" @command="theme">
                       <el-button type="primary" size="small">
@@ -53,8 +53,8 @@
                         <i class="el-icon-arrow-down el-icon--right"></i>
                       </el-button>
                       <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item command="1">经典</el-dropdown-item>
-                        <el-dropdown-item command="2">科技</el-dropdown-item>
+                        <el-dropdown-item command="1">{{$t('home.classic')}}</el-dropdown-item>
+                        <el-dropdown-item command="2">{{$t('home.technology')}}</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
                   </el-col>

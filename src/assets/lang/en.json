@@ -4,6 +4,15 @@
         "register":"register"
     },
     "home":{
-        "logo":"News background management system"
+        "logo":"News background management system",
+        "logout":"logout",
+        "changePassword":"Change Password",
+        "setting":"setting",
+        "language":"language",
+        "theme":"theme",
+        "chinese":"chinese",
+        "english":"english",
+        "classic":"classic",
+        "technology":"technology"
     }
 }
